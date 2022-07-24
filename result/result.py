@@ -1,9 +1,16 @@
 '''
 insert verifiable prediction to result table
 '''
-import config as conf
 from datetime import datetime
+import MySQLdb
 
+
+def connect_database():
+    # Connect the database
+    db = MySQLdb.connect(host='127.0.0.1', user='root', passwd='hl4su3ao4', db='bitcoin_historical_price', port=3306, charset='utf8')
+    cursor = db.cursor()
+    db.autocommit(True)
+    return db, cursor
 
 # insert verifiable prediction to result table
 def insert_result_table(cursor):
@@ -22,7 +29,7 @@ def insert_result_table(cursor):
 
 
 def main():
-    db, cursor = conf.connect_database()
+    db, cursor = connect_database()
     now = datetime.utcnow().strftime('%Y-%m-%d %H:%M')
     insert_result_table(cursor=cursor)
 
